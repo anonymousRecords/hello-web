@@ -1,0 +1,30 @@
+.header {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  background-color: yellow;
+}
+
+#title {
+  font-size: 40px;
+  font-family: "MoveSans-Bold";
+}
+
+@font-face {
+  font-family: "MoveSans-Bold";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/MoveSans-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px
+  }
+}

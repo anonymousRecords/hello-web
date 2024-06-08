@@ -1,0 +1,21 @@
+.list-item {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 3px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.list-item:hover {
+  background-color: yellow;
+}
+
+@media (max-width: 768px) {
+  .list-item {
+    width: 150px;
+    height: 150px;
+  }
+}
