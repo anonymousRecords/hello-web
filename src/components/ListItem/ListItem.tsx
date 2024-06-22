@@ -4,9 +4,10 @@ import gsap from "gsap";
 
 type ListItemProps = {
   title?: string;
+  onClick?: () => void;
 };
 
-function ListItem({ title }: ListItemProps) {
+function ListItem({ title, onClick }: ListItemProps) {
   useGSAP(() => {
     gsap.to(
       ".list-item",
@@ -14,7 +15,7 @@ function ListItem({ title }: ListItemProps) {
     );
   }, []);
 
-  return <div className="list-item">{title}</div>;
+  return <div className="list-item" onClick={onClick}>{title}</div>;
 }
 
 export default ListItem;
