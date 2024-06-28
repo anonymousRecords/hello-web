@@ -1,24 +1,35 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../Home/Home";
 import Layout from "../Layout/Layout";
-import Archive0 from "../Archive/0/Archive0";
 import Error from "../Error/Error";
+import CssPage from "../CssPage/CssPage";
+import JavascriptPage from "../JavascriptPage/JavascriptPage";
+import ReactPage from "../ReactPage/ReactPage";
+import CssArchive from "../CssPage/CssArchive/CssArchive";
 
 
 export const router = createBrowserRouter([
   {
+    path: "/",
     element: <Layout />,
-    errorElement: <Error/>,
+    errorElement: <Error />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        path: "/css",
+        element: <CssPage />,
       },
       {
-        path: "/archive/0",
-        element: <Archive0 />,
-      }
+        path: "/css/:id",
+        element: <CssArchive />,
+      },
+      {
+        path: "/javascript",
+        element: <JavascriptPage />,
+      },
+      {
+        path: "/react",
+        element: <ReactPage />,
+      },
     ],
   },
 ]);
