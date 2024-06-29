@@ -3,11 +3,13 @@ export const navList = [
   {
     id: 1,
     name: "JavaScript",
-    url: "javascript",
+    url: "/javascript",
   },
   {
     id: 2,
     name: "React",
-    url: "react",
+    url: "/react",
   },
 ];
+
+export const LISTITEM_COUNT = 20;

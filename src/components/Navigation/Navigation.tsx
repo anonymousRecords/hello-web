@@ -19,7 +19,7 @@ function Navigation() {
           css={buttonStyle}
           key={item.id}
           onClick={() => {
-            navigate(`/${item.url}`);
+            navigate(`${item.url}`);
           }}
         >
           {item.name}

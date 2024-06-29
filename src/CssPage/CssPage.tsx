@@ -6,10 +6,11 @@ import ListItem from "../components/ListItem/ListItem";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "../components/Navigation";
 import { Helmet } from "react-helmet-async";
+import { LISTITEM_COUNT } from "../constants";
 
 export default function CssPage() {
   const navigate = useNavigate();
-  const lists = Array.from({ length: 20 }, (_, i) => i);
+  const lists = Array.from({ length: LISTITEM_COUNT }, (_, i) => i);
 
   useGSAP(() => {
     gsap.fromTo(
