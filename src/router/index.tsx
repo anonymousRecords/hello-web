@@ -6,6 +6,7 @@ import CssPage from "../CssPage/CssPage";
 import JavascriptPage from "../JavascriptPage/JavascriptPage";
 import ReactPage from "../ReactPage/ReactPage";
 import CssArchive from "../CssPage/CssArchive/CssArchive";
+import ReactArchive from "../ReactPage/ReactArchive/ReactArchive";
 
 
 export const router = createBrowserRouter([
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "/react",
         element: <ReactPage />,
+      },
+      {
+        path: "/react/:id",
+        element: <ReactArchive />,
       },
     ],
   },

@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
+import React0 from "./0/React0";
 
 function ReactArchive() {
   const { id } = useParams();
@@ -8,7 +9,7 @@ function ReactArchive() {
   const renderProject = () => {
     switch (id) {
       case "0":
-        return <div>React</div>;
+        return <React0 />;
       case "1":
         return <div>React Project 1</div>;
       case "2":
