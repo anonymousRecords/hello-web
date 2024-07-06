@@ -32,37 +32,50 @@ const Button = ({ id, text, isActive, onClick }: ButtonProps) => (
   </button>
 );
 
-// 셀 컴포넌트
-interface CellProps {
-  num: number;
+// 넘버 인풋 컴포넌트
+interface NumberInputProps {
+  label: string;
+  min: number;
+  max: number;
 }
-const Cell = ({ num }: CellProps) => <div css={cellStyle}>{num}</div>;
 
-// 타이머 컴포넌트
+const NumberInput = ({ label, min, max }: NumberInputProps) => (
+  <div css={numberInputStyle}>
+    <input type="number" min={min} max={max} />
+    <span>{label}</span>
+  </div>
+);
+
+// 시작, 리셋 버튼 컴포넌트
+interface ActionButtonProps {
+  text: string;
+  onClick: () => void;
+}
+
+const ActionButton = ({ text, onClick }: ActionButtonProps) => (
+  <button css={timerButtonStyle} onClick={onClick}>
+    {text}
+  </button>
+);
+
+// 리셋 동작
+const handleReset = () => {
+  console.log("리셋");
+}
+
+// 시작 동작
+const handleStart = () => {
+  console.log("시작");
+}
 
 const Timer = () => (
   <div css={timerWrapperStyle}>
-    <div css={cellContainerStyle}>
-      <Cell num={0} />
-      <Cell num={0} />
-      <div>
-        <button>up</button>
-        <button>down</button>
-      </div>
-    </div>
-    <span>:</span>
-    <div css={cellContainerStyle}>
-      <Cell num={0} />
-      <Cell num={0} />
-    </div>
-    <span>:</span>
-    <div css={cellContainerStyle}>
-      <Cell num={0} />
-      <Cell num={0} />
-    </div>
-    <div css={cellContainerStyle}>
-      <button css={timerButtonStyle}>시작</button>
-      <button css={timerButtonStyle}>리셋</button>
+    <NumberInput label="시" min={0} max={60} />
+    <NumberInput label="분" min={0} max={60} />
+    <NumberInput label="초" min={0} max={60} />
+    <div css={buttonContainerStyle}>
+      <ActionButton text="시작" onClick={() => handleStart()} />
+      <ActionButton text="리셋" onClick={() => handleReset()} />
     </div>
   </div>
 );
@@ -118,21 +131,18 @@ const toggleButtonStyle = css`
   }
 `;
 
-const cellContainerStyle = css`
+const buttonContainerStyle = css`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 3px;
 `;
 
-const cellStyle = css`
-  width: 30px;
-  height: 60px;
-  border: 1px solid #333;
-  border-radius: 8px;
+const numberInputStyle = css`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5px;
 `;
 
 const timerWrapperStyle = css`
@@ -141,8 +151,6 @@ const timerWrapperStyle = css`
   align-items: center;
   gap: 10px;
 `;
-
-const timerButton
 
 const timerButtonStyle = css`
   background-color: #333;
