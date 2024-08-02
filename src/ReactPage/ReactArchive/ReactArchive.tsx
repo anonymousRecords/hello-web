@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import React0 from "./0/React0";
+import React1 from "./1/React1";
 
 function ReactArchive() {
   const { id } = useParams();
@@ -11,7 +12,7 @@ function ReactArchive() {
       case "0":
         return <React0 />;
       case "1":
-        return <div>React Project 1</div>;
+        return <React1 />;
       case "2":
         return <div>React Project 2</div>;
       default:
