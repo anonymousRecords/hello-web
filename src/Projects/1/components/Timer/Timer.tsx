@@ -8,7 +8,7 @@ import { Button } from "../Button";
 function Timer() {
   const [time, setTime] = useState<number>(0);
   const [isRunning, setIsRunning] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number| null>(null);
 
   useEffect(() => {
     if (isRunning && time > 0) {

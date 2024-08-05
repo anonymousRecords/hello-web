@@ -2,7 +2,6 @@
  * 타이머, 스톱워치 구현
  * - 타이머와 스톱워치를 선택할 수 있는 버튼이 있음
  * **/
-import { Header } from "../../components/Header";
 import { useState } from "react";
 import { Stopwatch } from "./components/Stopwatch";
 import { Timer } from "./components/Timer";
