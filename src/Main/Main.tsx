@@ -1,16 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Helmet } from "react-helmet-async";
-import { Navigation } from "../components/Navigation";
-import { LISTITEM_COUNT } from "../constants";
-import ListItem from "../components/ListItem/ListItem";
 import { useNavigate } from "react-router-dom";
 
-function JavascriptPage() {
+import { Helmet } from "react-helmet-async";
+import { css } from "@emotion/react";
+
+import { projects } from "../Projects/projectConfig";
+import { ListItem } from "../components/ListItem";
+
+function Main() {
   const navigate = useNavigate();
-  const lists = Array.from({ length: LISTITEM_COUNT }, (_, i) => i);
+
+
   useGSAP(() => {
     gsap.fromTo(
       "#title",
@@ -18,25 +20,24 @@ function JavascriptPage() {
       { y: -10, opacity: 1, duration: 0.5 },
     );
   }, []);
+
   return (
     <>
       <Helmet>
-        <title>Hello JS</title>
+        <title>Hello Web</title>
       </Helmet>
       <header css={headerStyle}>
         <h1 id="title" css={titleStyle}>
-          Hello JavaScript
+          Hello Web
         </h1>
       </header>
-      <Navigation />
       <section css={sectionStyle}>
-        {lists.map((item) => (
+        {projects.map((item: ProjectItem) => (
           <ListItem
-            key={item}
-            title={`Item ${item}`}
+            key={item.id}
+            title={item.name}
             onClick={() => {
-              console.log(`Item ${item} clicked`);
-              navigate(`/javascript/${item}`);
+              navigate(`/projects/${item.id}`);
             }}
           />
         ))}
@@ -45,10 +46,10 @@ function JavascriptPage() {
   );
 }
 
-export default JavascriptPage;
+export default Main;
 
 const headerStyle = css`
-  margin-top: 30px;
+  margin: 30px 0px 30px 0px;
   background-color: yellow;
 `;
 

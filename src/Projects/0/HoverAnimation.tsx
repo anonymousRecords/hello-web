@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useRef, useCallback } from "react";
-import { Header } from "../../../components/Header";
 
 const useMouseEffect = () => {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -24,13 +23,12 @@ const useMouseEffect = () => {
 const CARD_COUNT = 4;
 const GRID_COLUMNS = 2;
 
-function Css0() {
+function HoverAnimation() {
   const lists = Array.from({ length: CARD_COUNT }, (_, i) => i);
   const { cardRefs, handleMouseMove } = useMouseEffect();
 
   return (
     <>
-      <Header />
       <main css={WrapperStyle} onMouseMove={handleMouseMove}>
         <div css={CardContainerStyle}>
           {lists.map((item, index) => (
@@ -49,7 +47,7 @@ function Css0() {
   );
 }
 
-export default Css0;
+export default HoverAnimation;
 
 const WrapperStyle = css`
   display: flex;
