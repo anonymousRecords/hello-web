@@ -7,7 +7,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "gen": "tsx packages/scripts/gen-log-bridges.ts",
+    "gen": "tsx packages/scripts/gen-log-bridges/index.ts",
     "gallery": "turbo run --filter=gallery dev"
   },
   "devDependencies": {
@@ -22,5 +22,8 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.11"
   }
 }
