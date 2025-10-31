@@ -29,7 +29,7 @@ export function mount(container: HTMLElement) {
       const documentProxy = {
         querySelector: root.querySelector.bind(root),
         querySelectorAll: root.querySelectorAll.bind(root),
-        getElementById: (id) => root.querySelector(\`#\${id}\`),
+        getElementById: (id: string) => root.querySelector(\`#\${id}\`),
         addEventListener: root.addEventListener.bind(root),
         removeEventListener: root.removeEventListener.bind(root),
         get body() { return root; },
