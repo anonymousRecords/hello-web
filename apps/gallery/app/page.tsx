@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { entries, load, Meta } from "./registry";
+import { entries, load } from "./registry";
+// TODO
+import { Meta } from "../../../packages/scripts/gen-log-bridges/types";
 import styles from "./page.module.css";
 import { PreviewCard } from "../components/ui/PreviewCard";
 
