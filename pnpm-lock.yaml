@@ -74,6 +74,12 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  apps/hover-effect:
+    devDependencies:
+      vite:
+        specifier: ^7.2.2
+        version: 7.2.2(@types/node@22.18.12)(tsx@4.20.6)
+
   apps/sparckling-text:
     devDependencies:
       vite:
