@@ -92,6 +92,16 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2(@types/node@22.18.12)(tsx@4.20.6)
 
+  apps/staggered-grid-effect:
+    dependencies:
+      animejs:
+        specifier: 3.2.1
+        version: 3.2.1
+    devDependencies:
+      vite:
+        specifier: ^7.2.2
+        version: 7.2.2(@types/node@22.18.12)(tsx@4.20.6)
+
   apps/website-header:
     devDependencies:
       vite:
@@ -807,6 +817,9 @@ packages:
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
+
+  animejs@3.2.1:
+    resolution: {integrity: sha512-sWno3ugFryK5nhiDm/2BKeFCpZv7vzerWUcUPyAZLDhMek3+S/p418ldZJbJXo5ZUOpfm2kP2XRO4NJcULMy9A==}
 
   ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
@@ -2415,6 +2428,8 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
+
+  animejs@3.2.1: {}
 
   ansi-styles@4.3.0:
     dependencies:
