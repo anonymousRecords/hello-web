@@ -116,6 +116,12 @@ importers:
         specifier: ^7.2.4
         version: 7.2.4(@types/node@22.18.12)(tsx@4.20.6)
 
+  apps/living-shapes:
+    devDependencies:
+      vite:
+        specifier: ^7.2.4
+        version: 7.2.4(@types/node@22.18.12)(tsx@4.20.6)
+
   apps/mouse-move-image-gallery:
     devDependencies:
       vite:
