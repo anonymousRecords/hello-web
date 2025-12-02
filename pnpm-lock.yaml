@@ -34,6 +34,12 @@ importers:
         specifier: ^7.1.7
         version: 7.1.12(@types/node@22.18.12)(tsx@4.20.6)
 
+  apps/curtain-reveal-menu:
+    devDependencies:
+      vite:
+        specifier: ^7.2.4
+        version: 7.2.4(@types/node@22.18.12)(tsx@4.20.6)
+
   apps/fancy-gradient-hover-link:
     devDependencies:
       vite:
