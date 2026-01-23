@@ -4,7 +4,7 @@
   "scripts": {
     "build": "pnpm gen:registry && pnpm build:interactions && turbo run build --filter=gallery",
     "build:interactions": "tsx packages/scripts/build-interactions.ts",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --concurrency=30",
     "dev:gallery": "turbo run dev --filter=gallery",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
