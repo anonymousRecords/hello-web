@@ -2,12 +2,14 @@
   "name": "ux-interaction-log",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "pnpm gen:registry && pnpm build:interactions && turbo run build --filter=gallery",
+    "build:interactions": "tsx packages/scripts/build-interactions.ts",
     "dev": "turbo run dev",
+    "dev:gallery": "turbo run dev --filter=gallery",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "gen": "tsx packages/scripts/gen-log-bridges/index.ts",
+    "gen:registry": "tsx packages/scripts/gen-registry/index.ts",
     "gallery": "turbo run --filter=gallery dev"
   },
   "devDependencies": {
