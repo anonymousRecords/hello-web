@@ -12,8 +12,12 @@ interface PreviewCardProps {
 export function PreviewCard({ entry, url }: PreviewCardProps) {
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleClick = () => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <div className={styles.card} id={entry.id}>
+    <div className={styles.card} id={entry.id} onClick={handleClick}>
       {isLoading && <div className={styles.skeleton} />}
       <iframe
         src={url}
@@ -23,9 +27,9 @@ export function PreviewCard({ entry, url }: PreviewCardProps) {
         onLoad={() => setIsLoading(false)}
       />
 
-      <div className={styles.overlay} />
+      <div className={styles.overlay} onClick={handleClick} />
 
-      <div className={styles.meta}>
+      <div className={styles.meta} onClick={handleClick}>
         <h2 className={styles.title}>{entry.title}</h2>
         <div className={styles.date}>{entry.date}</div>
         {entry.description && (
