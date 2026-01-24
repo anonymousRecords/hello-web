@@ -1,4 +1,4 @@
-import { useRef, type CSSProperties } from "react";
+import { useRef, useState, useEffect, type CSSProperties } from "react";
 import { motion, useMotionValue, useTransform } from "motion/react";
 
 const FADER_HEIGHT = 300;
@@ -9,7 +9,12 @@ const TactileFader = () => {
   const constraintsRef = useRef<HTMLDivElement>(null);
   const prevStepRef = useRef<number>(0);
   const dragStartY = useRef<number>(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const y = useMotionValue(0);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const steppedY = useTransform(y, (latest: number) => {
     const currentStep = Math.round(latest / SNAP_INTERVAL);
@@ -20,16 +25,102 @@ const TactileFader = () => {
     return currentStep * SNAP_INTERVAL;
   });
 
+  useEffect(() => {
+    const maxY = FADER_HEIGHT - HANDLE_HEIGHT;
+    const unsubscribe = steppedY.on("change", (latest) => {
+      if (audioRef.current) {
+        const volume = 1 - latest / maxY;
+        audioRef.current.volume = Math.max(0, Math.min(1, volume));
+      }
+    });
+    return () => unsubscribe();
+  }, [steppedY]);
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = Number(e.target.value);
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      setCurrentTime(time);
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+  };
+
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100vw",
-        height: "100vh",
-      }}
-    >
+    <div style={pageStyle}>
+      <div style={playerContainerStyle}>
+        <audio
+          ref={audioRef}
+          src="/music.mp3"
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={handleLoadedMetadata}
+          onEnded={handleEnded}
+        />
+
+        <button onClick={togglePlay} style={playButtonStyle}>
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16" />
+              <rect x="14" y="4" width="4" height="16" />
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5,3 19,12 5,21" />
+            </svg>
+          )}
+        </button>
+
+        <span style={timeStyle}>
+          {formatTime(currentTime)} / {formatTime(duration)}
+        </span>
+
+        <div style={progressContainerStyle}>
+          <div style={{ ...progressBarStyle, width: `${progress}%` }} />
+          <input
+            type="range"
+            min={0}
+            max={duration || 0}
+            value={currentTime}
+            onChange={handleSeek}
+            style={progressInputStyle}
+          />
+        </div>
+      </div>
+
+      {/* 페이더 컨테이너 */}
       <div style={containerStyle}>
         <div ref={constraintsRef} style={trackStyle}>
           {Array.from({ length: 11 }).map((_, i) => (
@@ -66,18 +157,96 @@ const TactileFader = () => {
             </div>
           </motion.div>
         </div>
+
+        <div style={volumeLabelStyle}>VOL</div>
       </div>
     </div>
   );
 };
 
-const containerStyle: CSSProperties = {
+const pageStyle: CSSProperties = {
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  height: "50vh",
+  width: "100vw",
+  height: "100vh",
+  gap: "40px",
+};
+
+const playerContainerStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+  padding: "16px 24px",
+  backgroundColor: "#f5f5f5",
+  borderRadius: "40px",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+};
+
+const playButtonStyle: CSSProperties = {
+  width: "40px",
+  height: "40px",
+  border: "none",
+  background: "transparent",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#333",
+};
+
+const timeStyle: CSSProperties = {
+  fontFamily: "monospace",
+  fontSize: "16px",
+  color: "#333",
+  minWidth: "100px",
+};
+
+const progressContainerStyle: CSSProperties = {
+  position: "relative",
+  width: "200px",
+  height: "6px",
+  backgroundColor: "#ddd",
+  borderRadius: "3px",
+};
+
+const progressBarStyle: CSSProperties = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  height: "100%",
+  backgroundColor: "#666",
+  borderRadius: "3px",
+  pointerEvents: "none",
+};
+
+const progressInputStyle: CSSProperties = {
+  position: "absolute",
+  top: "-8px",
+  left: 0,
+  width: "100%",
+  height: "20px",
+  opacity: 0,
+  cursor: "pointer",
+};
+
+const containerStyle: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "40px",
   backgroundColor: "#121212",
   borderRadius: "12px",
+  gap: "16px",
+};
+
+const volumeLabelStyle: CSSProperties = {
+  color: "#666",
+  fontSize: "12px",
+  fontWeight: "bold",
+  letterSpacing: "2px",
 };
 
 const trackStyle: CSSProperties = {
