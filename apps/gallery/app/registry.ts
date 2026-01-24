@@ -22,6 +22,7 @@ const portMap: Record<string, number> = {
   "mouse-move-image-gallery": 4013,
   "sparckling-text": 4014,
   "staggered-grid-effect": 4015,
+  "tactile-fader": 4017,
   "tooltip-delays": 4002,
   "website-header": 4016
 };
@@ -40,6 +41,7 @@ export const interactions: InteractionEntry[] = [
   {"id":"mouse-move-image-gallery","title":"Mouse Move Image Gallery","date":"2025-01-01"},
   {"id":"sparckling-text","title":"Sparckling Text","date":"2025-01-01"},
   {"id":"staggered-grid-effect","title":"Staggered Grid Effect","date":"2025-01-01"},
+  {"id":"tactile-fader","title":"Tactile Fader","date":"2025-01-01"},
   {"id":"tooltip-delays","title":"Tooltip Delays","date":"2025-01-01"},
   {"id":"website-header","title":"Website Header","date":"2025-01-01"}
 ];
