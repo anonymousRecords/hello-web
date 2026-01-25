@@ -16,7 +16,7 @@ export const AudioPlayer = ({ audioRef }: AudioPlayerProps) => {
     <div style={playerContainerStyle}>
       <audio
         ref={audioRef}
-        src="/music.mp3"
+        src={`${import.meta.env.BASE_URL}music.mp3`}
         onTimeUpdate={() => {
           if (audioRef.current) {
             setCurrentTime(audioRef.current.currentTime);
