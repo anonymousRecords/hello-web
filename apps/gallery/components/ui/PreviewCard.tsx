@@ -31,19 +31,6 @@ export function PreviewCard({ entry, url }: PreviewCardProps) {
 
       <div className={styles.meta} onClick={handleClick}>
         <h2 className={styles.title}>{entry.title}</h2>
-        <div className={styles.date}>{entry.date}</div>
-        {entry.description && (
-          <p className={styles.description}>{entry.description}</p>
-        )}
-        {entry.tags && entry.tags.length > 0 && (
-          <div className={styles.tags}>
-            {entry.tags.map((tag) => (
-              <span key={tag} className={styles.tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

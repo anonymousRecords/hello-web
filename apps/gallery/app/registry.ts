@@ -3,9 +3,6 @@
 export interface InteractionEntry {
   id: string;
   title: string;
-  date: string;
-  description?: string;
-  tags?: string[];
 }
 
 const portMap: Record<string, number> = {
@@ -28,22 +25,22 @@ const portMap: Record<string, number> = {
 };
 
 export const interactions: InteractionEntry[] = [
-  {"id":"button-press","title":"Button Press","date":"2025-01-01"},
-  {"id":"curtain-reveal-menu","title":"Curtain Reveal Menu","date":"2025-01-01"},
-  {"id":"fancy-gradient-hover-link","title":"Fancy Gradient Hover Link","date":"2025-01-01"},
-  {"id":"fancy-nav","title":"Fancy Nav","date":"2025-01-01"},
-  {"id":"full-screen-carousel","title":"Full Screen Carousel","date":"2025-01-01"},
-  {"id":"hover-card-effect","title":"Hover Card Effect","date":"2025-01-01"},
-  {"id":"hover-effect","title":"Hover Effect","date":"2025-01-01"},
-  {"id":"hover-glide-image-gallery","title":"Hover Glide Image Gallery","date":"2025-01-01"},
-  {"id":"intelligent-mouse-trailer","title":"Intelligent Mouse Trailer","date":"2025-01-01"},
-  {"id":"living-shapes","title":"Living Shapes","date":"2025-01-01"},
-  {"id":"mouse-move-image-gallery","title":"Mouse Move Image Gallery","date":"2025-01-01"},
-  {"id":"sparckling-text","title":"Sparckling Text","date":"2025-01-01"},
-  {"id":"staggered-grid-effect","title":"Staggered Grid Effect","date":"2025-01-01"},
-  {"id":"tactile-fader","title":"Tactile Fader","date":"2025-01-01"},
-  {"id":"tooltip-delays","title":"Tooltip Delays","date":"2025-01-01"},
-  {"id":"website-header","title":"Website Header","date":"2025-01-01"}
+  {"id":"button-press","title":"Button Press"},
+  {"id":"curtain-reveal-menu","title":"Curtain Reveal Menu"},
+  {"id":"fancy-gradient-hover-link","title":"Fancy Gradient Hover Link"},
+  {"id":"fancy-nav","title":"Fancy Nav"},
+  {"id":"full-screen-carousel","title":"Full Screen Carousel"},
+  {"id":"hover-card-effect","title":"Hover Card Effect"},
+  {"id":"hover-effect","title":"Hover Effect"},
+  {"id":"hover-glide-image-gallery","title":"Hover Glide Image Gallery"},
+  {"id":"intelligent-mouse-trailer","title":"Intelligent Mouse Trailer"},
+  {"id":"living-shapes","title":"Living Shapes"},
+  {"id":"mouse-move-image-gallery","title":"Mouse Move Image Gallery"},
+  {"id":"sparckling-text","title":"Sparckling Text"},
+  {"id":"staggered-grid-effect","title":"Staggered Grid Effect"},
+  {"id":"tactile-fader","title":"Tactile Fader"},
+  {"id":"tooltip-delays","title":"Tooltip Delays"},
+  {"id":"website-header","title":"Website Header"}
 ];
 
 export function getUrl(id: string, isDev: boolean): string {

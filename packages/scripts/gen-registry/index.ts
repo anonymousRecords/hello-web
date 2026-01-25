@@ -4,17 +4,11 @@ import * as path from "path";
 interface Meta {
   id?: string;
   title?: string;
-  date?: string;
-  description?: string;
-  tags?: string[];
 }
 
 interface AppEntry {
   id: string;
   title: string;
-  date: string;
-  description?: string;
-  tags?: string[];
   port: number;
 }
 
@@ -45,7 +39,6 @@ const GALLERY_DIR = path.join(APPS_DIR, "gallery");
 const OUTPUT_FILE = path.join(GALLERY_DIR, "app/registry.ts");
 
 function isViteApp(appDir: string): boolean {
-  // Check if it has an index.html (Vite app) and is not the gallery (Next.js)
   const hasIndexHtml = fs.existsSync(path.join(appDir, "index.html"));
   const hasPackageJson = fs.existsSync(path.join(appDir, "package.json"));
   return hasIndexHtml && hasPackageJson;
@@ -78,13 +71,10 @@ function discoverApps(): AppEntry[] {
   for (const dir of dirs) {
     const appDir = path.join(APPS_DIR, dir);
 
-    // Skip if not a directory
     if (!fs.statSync(appDir).isDirectory()) continue;
 
-    // Skip gallery (it's the Next.js host app)
     if (dir === "gallery") continue;
 
-    // Check if it's a Vite app
     if (!isViteApp(appDir)) continue;
 
     const meta = readMeta(appDir);
@@ -93,19 +83,11 @@ function discoverApps(): AppEntry[] {
     entries.push({
       id: meta?.id || dir,
       title: meta?.title || formatTitle(dir),
-      date: meta?.date || "2025-01-01",
-      description: meta?.description,
-      tags: meta?.tags,
       port,
     });
   }
 
-  // Sort by date (newest first) then by title
-  entries.sort((a, b) => {
-    const dateCompare = b.date.localeCompare(a.date);
-    if (dateCompare !== 0) return dateCompare;
-    return a.title.localeCompare(b.title);
-  });
+  entries.sort((a, b) => a.title.localeCompare(b.title));
 
   return entries;
 }
@@ -116,16 +98,7 @@ function generateRegistry(entries: AppEntry[]): string {
     .join(",\n");
 
   const interactionEntries = entries
-    .map((e) => {
-      const obj: Record<string, unknown> = {
-        id: e.id,
-        title: e.title,
-        date: e.date,
-      };
-      if (e.description) obj.description = e.description;
-      if (e.tags) obj.tags = e.tags;
-      return `  ${JSON.stringify(obj)}`;
-    })
+    .map((e) => `  ${JSON.stringify({ id: e.id, title: e.title })}`)
     .join(",\n");
 
   return `/** AUTO-GENERATED — do not edit */
@@ -133,9 +106,6 @@ function generateRegistry(entries: AppEntry[]): string {
 export interface InteractionEntry {
   id: string;
   title: string;
-  date: string;
-  description?: string;
-  tags?: string[];
 }
 
 const portMap: Record<string, number> = {
@@ -164,7 +134,6 @@ function main() {
 
   const registry = generateRegistry(entries);
 
-  // Ensure output directory exists
   const outputDir = path.dirname(OUTPUT_FILE);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
