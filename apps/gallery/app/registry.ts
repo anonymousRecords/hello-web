@@ -21,6 +21,7 @@ const portMap: Record<string, number> = {
   "staggered-grid-effect": 4015,
   "tactile-fader": 4017,
   "tooltip-delays": 4002,
+  "traffic-light": 4018,
   "website-header": 4016
 };
 
@@ -40,6 +41,7 @@ export const interactions: InteractionEntry[] = [
   {"id":"staggered-grid-effect","title":"Staggered Grid Effect"},
   {"id":"tactile-fader","title":"Tactile Fader"},
   {"id":"tooltip-delays","title":"Tooltip Delays"},
+  {"id":"traffic-light","title":"Traffic Light"},
   {"id":"website-header","title":"Website Header"}
 ];
 

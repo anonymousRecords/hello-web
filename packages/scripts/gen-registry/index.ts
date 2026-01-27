@@ -31,6 +31,7 @@ const PORT_MAP: Record<string, number> = {
   "staggered-grid-effect": 4015,
   "website-header": 4016,
   "tactile-fader": 4017,
+  "traffic-light": 4018,
 };
 
 const ROOT = path.resolve(__dirname, "../../..");
