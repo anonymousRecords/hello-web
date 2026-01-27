@@ -139,6 +139,9 @@ importers:
 
   apps/opening-box:
     dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -201,6 +204,9 @@ importers:
 
   apps/tactile-fader:
     dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       motion:
         specifier: ^12.29.0
         version: 12.29.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -256,6 +262,9 @@ importers:
 
   apps/traffic-light:
     dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       react:
         specifier: ^19.2.0
         version: 19.2.0
