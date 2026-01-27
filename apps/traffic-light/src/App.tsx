@@ -25,12 +25,11 @@ function App() {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <div style={{ flex: 1, overflow: "hidden" }}>
-        <video
-          src={`${import.meta.env.BASE_URL}/traffic-light.MOV`}
-          autoPlay
-          loop
-          muted
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        <iframe
+          src="https://www.youtube.com/embed/v43_v_7uh0o?autoplay=1&mute=1&loop=1&playlist=v43_v_7uh0o&controls=0&showinfo=0&rel=0"
+          style={{ width: "100%", height: "100%", border: "none" }}
+          allow="autoplay; encrypted-media"
+          allowFullScreen
         />
       </div>
       <div
