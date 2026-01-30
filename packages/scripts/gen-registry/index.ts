@@ -33,6 +33,7 @@ const PORT_MAP: Record<string, number> = {
   "tactile-fader": 4017,
   "traffic-light": 4018,
   "opening-box": 4019,
+  "stranger-things": 4020,
 };
 
 const ROOT = path.resolve(__dirname, "../../..");

@@ -202,6 +202,15 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2(@types/node@24.10.9)(tsx@4.20.6)
 
+  apps/stranger-things:
+    devDependencies:
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.2.4
+        version: 7.2.4(@types/node@24.10.9)(tsx@4.20.6)
+
   apps/tactile-fader:
     dependencies:
       '@repo/ui':
