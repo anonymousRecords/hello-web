@@ -153,5 +153,3 @@ card.addEventListener("mouseleave", handleMouseLeave);
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-
-console.log("Stranger Things Tilt Card initialized!");
