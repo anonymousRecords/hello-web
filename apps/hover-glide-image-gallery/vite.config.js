@@ -1,9 +1,14 @@
 import { defineConfig } from 'vite';
+import { readFileSync } from 'node:fs';
+
+const meta = JSON.parse(
+  readFileSync(new URL('./meta.json', import.meta.url), 'utf-8'),
+);
 
 export default defineConfig({
   server: {
-    port: 4010,
+    port: meta.port,
     strictPort: true,
   },
-  base: process.env.BUILD_FOR_GALLERY ? '/interactions/hover-glide-image-gallery/' : '/',
+  base: process.env.BUILD_FOR_GALLERY ? `/interactions/${meta.id}/` : '/',
 });

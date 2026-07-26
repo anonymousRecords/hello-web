@@ -1,40 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
 
-interface Meta {
-  id?: string;
-  title?: string;
-}
-
 interface AppEntry {
   id: string;
   title: string;
   port: number;
 }
-
-// Port mapping for each app
-const PORT_MAP: Record<string, number> = {
-  "button-press": 4001,
-  "tooltip-delays": 4002,
-  "toast-enter": 4003,
-  "curtain-reveal-menu": 4004,
-  "fancy-gradient-hover-link": 4005,
-  "fancy-nav": 4006,
-  "full-screen-carousel": 4007,
-  "hover-card-effect": 4008,
-  "hover-effect": 4009,
-  "hover-glide-image-gallery": 4010,
-  "intelligent-mouse-trailer": 4011,
-  "living-shapes": 4012,
-  "mouse-move-image-gallery": 4013,
-  "sparckling-text": 4014,
-  "staggered-grid-effect": 4015,
-  "website-header": 4016,
-  "tactile-fader": 4017,
-  "traffic-light": 4018,
-  "opening-box": 4019,
-  "stranger-things": 4020,
-};
 
 const ROOT = path.resolve(__dirname, "../../..");
 const APPS_DIR = path.join(ROOT, "apps");
@@ -47,47 +18,78 @@ function isViteApp(appDir: string): boolean {
   return hasIndexHtml && hasPackageJson;
 }
 
-function readMeta(appDir: string): Meta | null {
+/**
+ * meta.json은 인터랙션의 유일한 진실 원천이다.
+ * vite.config도 같은 파일에서 port/id를 읽으므로 여기서 어긋나면 dev 서버와
+ * 갤러리 링크가 조용히 갈라진다. 따라서 누락/불량은 경고가 아니라 실패로 다룬다.
+ */
+function readMeta(
+  dir: string,
+  appDir: string,
+  errors: string[],
+): AppEntry | null {
   const metaPath = path.join(appDir, "meta.json");
-  if (fs.existsSync(metaPath)) {
-    try {
-      return JSON.parse(fs.readFileSync(metaPath, "utf-8"));
-    } catch {
-      return null;
-    }
+
+  if (!fs.existsSync(metaPath)) {
+    errors.push(
+      `${dir}: meta.json이 없습니다. { "id", "title", "port" }를 정의하세요.`,
+    );
+    return null;
   }
-  return null;
+
+  let meta: unknown;
+  try {
+    meta = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+  } catch (error) {
+    errors.push(`${dir}: meta.json 파싱 실패 — ${(error as Error).message}`);
+    return null;
+  }
+
+  const { id, title, port } = (meta ?? {}) as Partial<AppEntry>;
+
+  if (typeof id !== "string" || id.length === 0) {
+    errors.push(`${dir}: meta.json의 "id"가 비어 있거나 문자열이 아닙니다.`);
+    return null;
+  }
+  if (id !== dir) {
+    errors.push(`${dir}: meta.json의 "id"(${id})가 디렉토리명과 다릅니다.`);
+    return null;
+  }
+  if (typeof title !== "string" || title.length === 0) {
+    errors.push(`${dir}: meta.json의 "title"이 비어 있거나 문자열이 아닙니다.`);
+    return null;
+  }
+  if (typeof port !== "number" || !Number.isInteger(port)) {
+    errors.push(`${dir}: meta.json의 "port"가 없거나 정수가 아닙니다.`);
+    return null;
+  }
+
+  return { id, title, port };
 }
 
-function formatTitle(id: string): string {
-  return id
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-function discoverApps(): AppEntry[] {
+function discoverApps(errors: string[]): AppEntry[] {
   const entries: AppEntry[] = [];
+  const portOwner = new Map<number, string>();
 
-  const dirs = fs.readdirSync(APPS_DIR);
-
-  for (const dir of dirs) {
+  for (const dir of fs.readdirSync(APPS_DIR)) {
     const appDir = path.join(APPS_DIR, dir);
 
     if (!fs.statSync(appDir).isDirectory()) continue;
-
     if (dir === "gallery") continue;
-
     if (!isViteApp(appDir)) continue;
 
-    const meta = readMeta(appDir);
-    const port = PORT_MAP[dir] || 4000 + entries.length + 1;
+    const entry = readMeta(dir, appDir, errors);
+    if (!entry) continue;
 
-    entries.push({
-      id: meta?.id || dir,
-      title: meta?.title || formatTitle(dir),
-      port,
-    });
+    // strictPort: true라 포트가 겹치면 나중에 뜬 dev 서버가 그냥 죽는다. 미리 잡는다.
+    const owner = portOwner.get(entry.port);
+    if (owner) {
+      errors.push(`${dir}: 포트 ${entry.port}이 ${owner}와 중복입니다.`);
+      continue;
+    }
+    portOwner.set(entry.port, dir);
+
+    entries.push(entry);
   }
 
   entries.sort((a, b) => a.title.localeCompare(b.title));
@@ -104,7 +106,7 @@ function generateRegistry(entries: AppEntry[]): string {
     .map((e) => `  ${JSON.stringify({ id: e.id, title: e.title })}`)
     .join(",\n");
 
-  return `/** AUTO-GENERATED — do not edit */
+  return `/** AUTO-GENERATED — do not edit. \`pnpm gen:registry\`로 재생성됩니다. */
 
 export interface InteractionEntry {
   id: string;
@@ -131,7 +133,17 @@ export function getUrl(id: string, isDev: boolean): string {
 
 function main() {
   console.log("Discovering apps...");
-  const entries = discoverApps();
+
+  const errors: string[] = [];
+  const entries = discoverApps(errors);
+
+  if (errors.length > 0) {
+    console.error(`\nmeta.json 검증 실패 (${errors.length}건):`);
+    errors.forEach((e) => console.error(`  - ${e}`));
+    process.exitCode = 1;
+    return;
+  }
+
   console.log(`Found ${entries.length} apps:`);
   entries.forEach((e) => console.log(`  - ${e.id} (port ${e.port})`));
 

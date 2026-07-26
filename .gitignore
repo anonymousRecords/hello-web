@@ -27,6 +27,10 @@ out/
 build
 dist
 
+# Generated (pnpm gen:registry / pnpm build:interactions로 재생성)
+apps/gallery/app/registry.ts
+apps/gallery/public/interactions/
+
 
 # Debug
 npm-debug.log*

@@ -63,7 +63,7 @@ function main() {
 
   // Build each app
   let success = 0;
-  let failed = 0;
+  const failed: string[] = [];
 
   for (const app of apps) {
     try {
@@ -71,13 +71,20 @@ function main() {
       success++;
     } catch (error) {
       console.error(`Failed to build ${app}:`, error);
-      failed++;
+      failed.push(app);
     }
   }
 
   console.log(`\n========================================`);
-  console.log(`Build complete: ${success} succeeded, ${failed} failed`);
+  console.log(`Build complete: ${success} succeeded, ${failed.length} failed`);
   console.log(`Output directory: ${OUTPUT_DIR}`);
+
+  // 빌드에 실패한 앱은 갤러리에 카드만 남고 404가 된다.
+  // 배포가 조용히 성공하지 않도록 반드시 실패로 종료한다.
+  if (failed.length > 0) {
+    console.error(`\nFailed apps: ${failed.join(", ")}`);
+    process.exitCode = 1;
+  }
 }
 
 main();
